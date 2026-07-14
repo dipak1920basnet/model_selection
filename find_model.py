@@ -5,6 +5,8 @@ class FindBestModel:
     def __init__(self,model_list:list):
         self.model_list = model_list
         self.evaluation = {}
+        self.best_model = None
+        self.best_model_acc = None
 
     def add_model(self, model):
         self.model_list.append(model)
@@ -35,7 +37,7 @@ class FindBestModel:
             }
         self.evaluation = evaluation
     
-    def print_bet_model_Info(self):
+    def print_trained_model_Info(self):
         evaluation_score = pd.DataFrame(self.evaluation)
         print(evaluation_score)
 
@@ -45,4 +47,15 @@ class FindBestModel:
         max_value = max(dev_evaluation)
         model_ind = dev_evaluation.index(max_value)
         best_model, best_model_acc = self.model_list[model_ind], dev_evaluation[model_ind]
+        self.best_model = best_model
+        self.best_model_acc = best_model_acc
         return (best_model, best_model_acc)
+    
+    def print_best_model_params(self):
+        print(self.best_model)
+        print(self.best_model.get_params())
+    
+    def print_best_model_acc(self):
+        print(self.best_model)
+        print(self.best_model_acc)
+    
