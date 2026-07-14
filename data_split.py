@@ -1,4 +1,5 @@
 from sklearn.model_selection import train_test_split
+import numpy as np 
 
 def main():
     ...
@@ -30,6 +31,16 @@ def split_data(X,y, dev_size=0.2, test_size=0.2):
     X_train, X_dev, y_train, y_dev = first_split(X_train_dev, y_train_dev, test_size=dev_size)
     return X_train,X_dev,X_test, y_train, y_dev, y_test
 
+def combine_data(X1, X2, y1, y2):
+    """
+    returns X,y 
+    were X is (X1 and X2) combined 
+    and  y is (y1 and y2) combined 
+    """
+    X_ = np.vstack((X1, X2))
+    y_ = np.concatenate((y1, y2))
+
+    return X_, y_
 
 if __name__ == "__main__":
     main()
