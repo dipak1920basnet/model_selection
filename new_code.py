@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import f1_score
 import pandas as pd 
 from sklearn.base import clone
@@ -168,3 +168,28 @@ final_prediction = final_train.predict(X_test)
 
 final_evaluation = f1_score(final_prediction, y_test)
 print(f"final_f1_Score: {final_evaluation}")
+
+
+# automatic tuning with library (GridSearchCV)
+# parameters list for hyperparameter tuning
+parameters = {
+    "n_estimators": n_estimators,
+    "criterion":criterion,
+    "max_depth":max_depth,
+    # "min_samples_split":min_sample_split,
+    # "min_samples_leaf":min_samples_leaf,
+    # "max_features":max_features,
+    # "bootstrap":bootstrap
+}
+
+models = clone(model)
+clf = GridSearchCV(models, parameters)
+history = clf.fit(X_train, y_train)
+
+# model with best param 
+model = history.best_estimator_
+training = model.fit(X_train_dev, y_train_dev)
+prediction = training.predict(X_test)
+evaluation = f1_score(prediction, y_test)
+print(evaluation)
+# predict with best 
